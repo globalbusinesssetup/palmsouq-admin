@@ -14,7 +14,6 @@
   >
     <template v-slot:form="{hasError}">
       <div class="input-wrapper">
-
         <label>{{ $t('index.title') }}</label>
         <input
           type="text"

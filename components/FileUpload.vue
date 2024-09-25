@@ -3,7 +3,7 @@
     class="file-wrapper"
     :class="{'has-error': uploadMessage}"
   >
-    <div>
+    <div style="flex: 1;">
       <div
         class="file-input"
       >

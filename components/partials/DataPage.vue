@@ -46,7 +46,7 @@
 
         <img
           v-else-if="fileKeys.length && $can(gate, 'view')"
-          class="mx-w-300x"
+          class="mx-w-1920x"
           :src="getImageURL(result.image)"
         >
       </div>

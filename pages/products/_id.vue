@@ -253,6 +253,51 @@
               </div>
             </div><!--dply-felx inputs-->
 
+            <div class="dply-felx mlr--7-5 inputs">
+              <div class="input-wrapper mlr-7-5">
+                <label>{{ $t('prod.barcode') }}</label>
+                <input
+                  type="text"
+                  step="any"
+                  :placeholder="$t('prod.barcode')"
+                  v-model="result.barcode"
+                  :class="{invalid: (result.barcode < 1 || !result.barcode) && hasError}"
+                >
+                <span
+                  class="error"
+                  v-if="(result.barcode < 1 || !result.barcode) && hasError"
+                >
+                {{ $t('category.req', { type: $t('brand.price')}) }}
+              </span>
+              </div>
+
+              <div class="input-wrapper mlr-7-5">
+                <label>{{ $t('prod.supplier') }}</label>
+                <input
+                  type="text"
+                  step="any"
+                  :placeholder="$t('prod.supplier')"
+                  v-model="result.supplier"
+                  :class="{invalid: (result.supplier < 1 || !result.supplier) && hasError}"
+                >
+                <span
+                  class="error"
+                  v-if="(result.supplier < 1 || !result.supplier) && hasError"
+                >
+                {{ $t('category.req', { type: $t('brand.price')}) }}
+              </span>
+              </div>
+
+              <div class="input-wrapper mlr-7-5">
+                <label>{{ $t('prod.sItmCode') }}</label>
+                <input
+                  type="text"
+                  step="any"
+                  :placeholder="$t('prod.sItmCode')"
+                  v-model="result.supplier_item_code"
+                >
+              </div>
+            </div>
 
             <div class="dply-felx inputs pos-rel w-100">
               <div class="input-wrapper ">
@@ -270,9 +315,7 @@
                     />
                   </span>
                 </div>
-
                 <ul v-if="showCategories" class="multiple-wrap" v-outside-click="closeDrop" id="multiple-category">
-
                   <input
                     class="mb-10"
                     type="text"
@@ -536,9 +579,6 @@
               {{ $t('category.req', { type: $t('category.mTitle')}) }}
             </span>
             </div>
-
-
-
             <div class="input-wrapper">
               <label>{{ $t('ship.mk') }} ({{ $t('ship.csk') }})</label>
               <textarea
@@ -668,6 +708,9 @@
           purchased: '',
           selling: '',
           offered: '',
+          barcode: '',
+          supplier: '',
+          supplier_item_code: '',
           refundable: 1,
           warranty: 1,
           meta_description: '',
