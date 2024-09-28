@@ -87,7 +87,7 @@
               <error-formatter
                 type="image"
               />
-
+              
               <image-input
                 v-if="mediaStorageData.URL === mediaStorage"
                 :saving="fileUploading"

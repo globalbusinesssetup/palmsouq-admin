@@ -11,7 +11,6 @@
       <error-formatter
         type="image"
       />
-
       <div
         v-if="loading"
         class="spinner-wrapper"
@@ -77,10 +76,8 @@
             :fetching-data="formSubmitting && redirect"
           />
         </div>
-
       </form>
     </div>
-
   </div>
 </template>
 
@@ -259,7 +256,6 @@
           return this.$nuxt.error(e)
         }
         this.formSubmitting = false
-
       },
       async fetchingData() {
         try {

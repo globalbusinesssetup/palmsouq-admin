@@ -3,7 +3,7 @@
     class="file-wrapper"
     :class="{'has-error': uploadMessage}"
   >
-    <div style="flex: 1;">
+    <div>
       <div
         class="file-input"
       >
@@ -45,11 +45,10 @@
 
 <script>
 
-  import AjaxButton from '~/components/AjaxButton'
+  import AjaxButton from '~/components/AjaxButton';
   import util from "~/mixin/util";
   import validation from "~/mixin/validation";
   import LazyImage from "./LazyImage";
-  import {mapGetters} from 'vuex'
 
   export default {
     name: 'FileUpload',

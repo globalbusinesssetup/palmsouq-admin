@@ -353,6 +353,12 @@
                 gate: 'home_slider'
               },
               {
+                path: 'testimonials',
+                title: this.$t('title.tm'),
+                icon: 'site-features',
+                gate: 'testimonial'
+              },
+              {
                 path: 'site-setting',
                 title: this.$t('admin.site'),
                 icon: 'site-setting',
