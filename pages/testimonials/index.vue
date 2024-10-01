@@ -2,10 +2,10 @@
   <list-page
     v-if="$can('home_slider', 'view')"
     ref="listPage"
-    list-api="getSiteFeatures"
-    delete-api="deleteSiteFeature"
-    route-name="site-features"
-    :name="$t('title.sf')"
+    list-api="getTestimonials"
+    delete-api="deleteTestimonial"
+    route-name="testimonials"
+    :name="$t('title.tm')"
     gate="home_slider"
     :order-options="orderOptions"
     @delete-bulk="deleteBulk"
@@ -31,7 +31,7 @@
         <td>
 
           <nuxt-link
-            :to="`/site-features/${value.id}`"
+            :to="`/testimonial/${value.id}`"
           >
             <lazy-image
               class="mx-w-70x"

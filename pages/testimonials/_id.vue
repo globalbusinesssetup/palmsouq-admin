@@ -2,10 +2,10 @@
   <data-page
     ref="dataPage"
     set-api="setSiteFeature"
-    get-api="getSiteFeature"
+    get-api="getTestimonials"
     set-image-api="uploadSiteFeatureImage"
     route-name="site-features"
-    :name="$t('title.sf')"
+    :name="$t('title.tm')"
     :validation-keys="['detail']"
     :file-keys="['id', 'detail']"
     :result="result"
@@ -70,7 +70,7 @@
           id: '',
           image: this.defaultImage,
           status: '',
-          detail: '',
+          testimonial: '',
         }
       }
     },
