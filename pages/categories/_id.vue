@@ -11,29 +11,27 @@
     :file-keys="['id', 'status']"
     :result="result"
     @result="resultData"
+    :showBanner="true"
   >
-    <template v-slot:form="{hasError}">
+    <template v-slot:form="{ hasError }">
       <div class="input-wrapper">
-        <label>{{ $t('index.title') }}</label>
+        <label>{{ $t("index.title") }}</label>
         <input
           type="text"
           :placeholder="$t('index.title')"
           v-model="result.title"
           ref="title"
           @change="slugChange"
-          :class="{invalid: !!!result.title && hasError}"
-        >
-        <span
-          class="error"
-          v-if="!!!result.title && hasError"
-        >
-          {{ $t('category.req', { type: $t('index.title')}) }}
+          :class="{ invalid: !!!result.title && hasError }"
+        />
+        <span class="error" v-if="!!!result.title && hasError">
+          {{ $t("category.req", { type: $t("index.title") }) }}
         </span>
       </div>
 
       <div class="input-wrapper">
         <div class="dply-felx j-left mb-20 mb-sm-15">
-          <span class="mr-15">{{$t('title.pc')}}</span>
+          <span class="mr-15">{{ $t("title.pc") }}</span>
           <dropdown
             v-if="allCategories"
             :default-null="true"
@@ -44,78 +42,62 @@
         </div>
       </div>
 
-
       <div class="input-wrapper">
-
-        <label>{{ $t('category.slug') }}</label>
+        <label>{{ $t("category.slug") }}</label>
         <input
           type="text"
           :placeholder="$t('category.slug')"
           v-model="result.slug"
           ref="title"
-          :class="{invalid: !!!result.slug && hasError}"
-        >
-        <span
-          class="error"
-          v-if="!!!result.slug && hasError"
-        >
-          {{ $t('category.req', { type: $t('category.slug')}) }}
+          :class="{ invalid: !!!result.slug && hasError }"
+        />
+        <span class="error" v-if="!!!result.slug && hasError">
+          {{ $t("category.req", { type: $t("category.slug") }) }}
         </span>
       </div>
 
-
       <div class="input-wrapper">
-        <label>{{ $t('category.mTitle') }}</label>
+        <label>{{ $t("category.mTitle") }}</label>
         <input
           type="text"
           :placeholder="$t('category.mTitle')"
           v-model="result.meta_title"
-          :class="{invalid: !!!result.meta_title && hasError}"
-        >
-        <span
-          class="error"
-          v-if="!!!result.meta_title && hasError"
-        >
-          {{ $t('category.req', { type: $t('category.mTitle')}) }}
+          :class="{ invalid: !!!result.meta_title && hasError }"
+        />
+        <span class="error" v-if="!!!result.meta_title && hasError">
+          {{ $t("category.req", { type: $t("category.mTitle") }) }}
         </span>
       </div>
 
       <div class="input-wrapper">
-        <label>{{ $t('category.mDesc') }}</label>
+        <label>{{ $t("category.mDesc") }}</label>
         <textarea
           :placeholder="$t('category.mDesc')"
           v-model="result.meta_description"
-          :class="{invalid: !!!result.meta_description && hasError}"
+          :class="{ invalid: !!!result.meta_description && hasError }"
         />
-        <span
-          class="error"
-          v-if="!!!result.meta_description && hasError"
-        >
-          {{ $t('category.req', { type: $t('category.mDesc')}) }}
+        <span class="error" v-if="!!!result.meta_description && hasError">
+          {{ $t("category.req", { type: $t("category.mDesc") }) }}
         </span>
       </div>
 
       <div class="input-wrapper">
-        <label>{{ $t('ship.mk') }} ({{ $t('ship.csk') }})</label>
+        <label>{{ $t("ship.mk") }} ({{ $t("ship.csk") }})</label>
         <textarea
           :placeholder="$t('ship.mk')"
           v-model="result.meta_keywords"
-          :class="{invalid: !!!result.meta_keywords && hasError}"
+          :class="{ invalid: !!!result.meta_keywords && hasError }"
         />
-        <span
-          class="error"
-          v-if="!!!result.meta_keywords && hasError"
-        >
-                {{ $t('category.req', { type: $t('ship.mk')}) }}
-              </span>
+        <span class="error" v-if="!!!result.meta_keywords && hasError">
+          {{ $t("category.req", { type: $t("ship.mk") }) }}
+        </span>
       </div>
-
 
       <div class="input-wrapper">
         <div class="dply-felx j-left mb-20 mb-sm-15">
-            <span class="mr-15">
-              {{$t('category.featured')}}
-            </span>
+          <span class="mr-15">
+            {{ $t("category.featured") }}
+          </span>
 
           <dropdown
             :selectedKey="`${result.featured}`"
@@ -125,11 +107,10 @@
         </div>
       </div>
 
-
       <div class="input-wrapper">
         <div class="dply-felx j-left mb-20 mb-sm-15">
           <span class="mr-15">
-            {{ $t('title.sif') }}
+            {{ $t("title.sif") }}
           </span>
 
           <dropdown
@@ -140,12 +121,11 @@
         </div>
       </div>
 
-
       <div class="input-wrapper">
         <div class="dply-felx j-left mb-20 mb-sm-15">
-            <span class="mr-15">
-              {{ $t('category.status') }}
-            </span>
+          <span class="mr-15">
+            {{ $t("category.status") }}
+          </span>
 
           <dropdown
             :selectedKey="`${result.status}`"
@@ -159,77 +139,77 @@
 </template>
 
 <script>
+import DataPage from "~/components/partials/DataPage";
+import util from "~/mixin/util";
+import Dropdown from "~/components/Dropdown";
+import { mapGetters, mapActions } from "vuex";
 
-  import DataPage from "~/components/partials/DataPage";
-  import util from "~/mixin/util"
-  import Dropdown from '~/components/Dropdown'
-  import {mapGetters, mapActions } from 'vuex'
-
-  export default {
-    name: "categories",
-    middleware: ['common-middleware', 'auth'],
-    data() {
-      return {
-        result: {
-          id: '',
-          title: '',
-          status: 2,
-          featured: 2,
-          parent: '',
-          slug: '',
-          meta_description: '',
-          meta_keywords: '',
-          in_footer: 2,
-          meta_title: '',
-          image: ''
-        }
+export default {
+  name: "categories",
+  middleware: ["common-middleware", "auth"],
+  data() {
+    return {
+      result: {
+        id: "",
+        title: "",
+        status: 2,
+        featured: 2,
+        parent: "",
+        slug: "",
+        meta_description: "",
+        meta_keywords: "",
+        in_footer: 2,
+        meta_title: "",
+        image: "",
+      },
+    };
+  },
+  mixins: [util],
+  components: {
+    DataPage,
+    Dropdown,
+  },
+  computed: {
+    ...mapGetters("language", ["currentLanguage"]),
+    ...mapGetters("common", ["allCategories"]),
+  },
+  methods: {
+    resultData(evt) {
+      if (this.$route?.params?.id === "add") {
+        this.emptyAllList("allCategories");
       }
+      this.result = evt;
     },
-    mixins: [util],
-    components: {
-      DataPage,
-      Dropdown
+    inFooterSelected(data) {
+      this.result.in_footer = data.key;
     },
-    computed: {
-      ...mapGetters('language', ['currentLanguage']),
-      ...mapGetters('common', ['allCategories'])
+    featuredSelected(data) {
+      this.result.featured = data.key;
     },
-    methods: {
-      resultData(evt){
-        if(this.$route?.params?.id === 'add'){
-          this.emptyAllList('allCategories')
-        }
-        this.result = evt
-      },
-      inFooterSelected(data) {
-        this.result.in_footer = data.key
-      },
-      featuredSelected(data) {
-        this.result.featured = data.key
-      },
-      categorySelected(data) {
-        this.result.parent = data.key
-      },
-      titleChanged(){
-        this.result.slug = this.convertToSlug(this.result.title)
-      },
-      dropdownSelected(data) {
-        this.result.status = data.key
-      },
-      ...mapActions('common', ['getAllList', 'emptyAllList'])
+    categorySelected(data) {
+      this.result.parent = data.key;
     },
-    async mounted() {
-      if (!this.allCategories) {
-        try {
-          await this.getAllList({api: 'getAllCategories', mutation: 'SET_ALL_CATEGORIES'})
-        } catch (e) {
-          return this.$nuxt.error(e)
-        }
+    titleChanged() {
+      this.result.slug = this.convertToSlug(this.result.title);
+    },
+    dropdownSelected(data) {
+      this.result.status = data.key;
+    },
+    ...mapActions("common", ["getAllList", "emptyAllList"]),
+  },
+  async mounted() {
+    if (!this.allCategories) {
+      try {
+        await this.getAllList({
+          api: "getAllCategories",
+          mutation: "SET_ALL_CATEGORIES",
+        });
+      } catch (e) {
+        return this.$nuxt.error(e);
       }
     }
-  }
+  },
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -13,12 +13,11 @@
     :file-keys="['id', 'status']"
     :result="result"
     @result="result = $event"
+    :showBanner="true"
   >
-
-    <template v-slot:form="{hasError}">
-
+    <template v-slot:form="{ hasError }">
       <div class="input-wrapper">
-        <label>{{ $t('index.title') }}</label>
+        <label>{{ $t("index.title") }}</label>
         <input
           type="text"
           :placeholder="$t('index.title')"
@@ -26,40 +25,32 @@
           v-model="result.title"
           ref="title"
           @change="slugChange"
-          :class="{invalid: !!!result.title && hasError}"
-        >
-        <span
-          class="error"
-          v-if="!!!result.title && hasError"
-        >
-          {{ $t('category.req', { type: $t('index.title')}) }}
+          :class="{ invalid: !!!result.title && hasError }"
+        />
+        <span class="error" v-if="!!!result.title && hasError">
+          {{ $t("category.req", { type: $t("index.title") }) }}
         </span>
       </div>
 
-
-
       <div class="input-wrapper">
-        <label>{{ $t('category.slug') }}</label>
+        <label>{{ $t("category.slug") }}</label>
         <input
           type="text"
           :placeholder="$t('category.slug')"
           name="slug"
           v-model="result.slug"
           ref="slug"
-          :class="{invalid: !!!result.slug && hasError}"
-        >
-        <span
-          class="error"
-          v-if="!!!result.slug && hasError"
-        >
-          {{ $t('category.req', { type: $t('category.slug')}) }}
+          :class="{ invalid: !!!result.slug && hasError }"
+        />
+        <span class="error" v-if="!!!result.slug && hasError">
+          {{ $t("category.req", { type: $t("category.slug") }) }}
         </span>
       </div>
 
       <div class="input-wrapper">
         <div class="dply-felx j-left mb-20 mb-sm-15">
           <span class="mr-15">
-            {{$t('category.featured')}}
+            {{ $t("category.featured") }}
           </span>
 
           <dropdown
@@ -70,11 +61,10 @@
         </div>
       </div>
 
-
       <div class="input-wrapper">
         <div class="dply-felx j-left mb-20 mb-sm-15">
           <span class="mr-15">
-            {{ $t('category.status') }}
+            {{ $t("category.status") }}
           </span>
 
           <dropdown
@@ -84,55 +74,49 @@
           />
         </div>
       </div>
-
     </template>
   </data-page>
 </template>
 
 <script>
+import Dropdown from "~/components/Dropdown";
+import DataPage from "~/components/partials/DataPage";
+import util from "~/mixin/util";
+import { mapGetters } from "vuex";
 
-  import Dropdown from "~/components/Dropdown"
-  import DataPage from "~/components/partials/DataPage"
-  import util from "~/mixin/util"
-  import {mapGetters} from 'vuex'
-
-  export default {
-    name: "brands",
-    middleware: ['common-middleware', 'auth'],
-    data() {
-      return {
-        result: {
-          id: '',
-          title: '',
-          slug: '',
-          featured: 2,
-          status: 2,
-          image: ''
-        }
-      }
-    },
-    mixins: [util],
-    components: {
-      DataPage,
-      Dropdown
-    },
-    computed: {
-      ...mapGetters('language', ['currentLanguage']),
-    },
-    methods: {
-      featuredSelected(data) {
-        this.result.featured = data.key
+export default {
+  name: "brands",
+  middleware: ["common-middleware", "auth"],
+  data() {
+    return {
+      result: {
+        id: "",
+        title: "",
+        slug: "",
+        featured: 2,
+        status: 2,
+        image: "",
       },
-      dropdownSelected(data) {
-        this.result.status = data.key
-      },
-
+    };
+  },
+  mixins: [util],
+  components: {
+    DataPage,
+    Dropdown,
+  },
+  computed: {
+    ...mapGetters("language", ["currentLanguage"]),
+  },
+  methods: {
+    featuredSelected(data) {
+      this.result.featured = data.key;
     },
-    async mounted() {
-    }
-  }
+    dropdownSelected(data) {
+      this.result.status = data.key;
+    },
+  },
+  async mounted() {},
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
