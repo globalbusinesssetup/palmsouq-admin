@@ -16,9 +16,9 @@
         <th>
           <input type="checkbox" @change="checkAll">
         </th>
-        <th>{{ $t('admin.img') }}</th>
-        <th>{{ $t('admin.img') }}</th>
-        <th>{{ $t('admin.img') }}</th>
+        <th>{{ $t('list.cn') }}</th>
+        <th>{{ $t('list.tm') }}</th>
+        <th>{{ $t('list.cr') }}</th>
         <th>{{ $t('category.status') }}</th>
         <th/>
       </tr>
@@ -28,29 +28,15 @@
           <input type="checkbox" :value="value.id" v-model="cbList">
         </td>
 
-        <td>
-
-          <nuxt-link
-            :to="`/testimonial/${value.id}`"
-          >
-            <lazy-image
-              class="mx-w-70x"
-              :data-src="getThumbImageURL(value.image)"
-              alt=""
-            />
-          </nuxt-link>
-        </td>
-
-
-
-        <td><div v-html="value.detail"></div></td>
+        <td>{{ value.client_name }}</td>
+        <td><div v-html="value.testimonial"></div></td>
+        <td>{{ value.created }}</td>
         <td
           class="status"
           :class="{active: value.status == 1 }"
         >
           <span>{{ getStatus(value.status) }}</span>
         </td>
-        <td>{{ value.created }}</td>
         <td>
           <button
             v-if="$can('home_slider', 'edit')"

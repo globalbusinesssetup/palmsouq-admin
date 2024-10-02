@@ -161,6 +161,7 @@ export default {
         in_footer: 2,
         meta_title: "",
         image: "",
+        banner_image: "",
       },
     };
   },

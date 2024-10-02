@@ -296,7 +296,10 @@
     "tp": "Thumb prefix",
     "dom": "Date of month",
     "vam": "View all messages",
-    "loadn": "Store form"
+    "loadn": "Store form",
+    "cn": "Client Name",
+    "tm": "Testimonial",
+    "cr": "Created at"
   },
   "error": {
     "err": "Error",
@@ -549,7 +552,9 @@
     "ePixel": "eg. 516935765764356",
     "pixel": "Facebook Pixel",
     "cancel": "Cancel",
-    "approve": "Approve"
+    "approve": "Approve",
+    "client": "Client Name",
+    "rating": "Rating"
   },
   "ship": {
     "fre": "Free",
