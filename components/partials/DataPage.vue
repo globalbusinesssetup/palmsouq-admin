@@ -30,6 +30,7 @@
             only-icon="upload-icon"
             class="mb-20 mb-sm-15"
             @file-upload="uploadFile"
+            :imageWrapStyle="{ width: '350px' }"
           />
         </div>
 
@@ -56,16 +57,16 @@
               v-if="mediaStorageData.URL === mediaStorage"
               class="mb-20 mb-sm-15"
               :saving="fileUploading"
-              :image="result.image"
-              @image-change="uploadFile(null, $event, 'banner_image')"
+              :image="result?.banner_image"
+              @image-change="uploadFile(null, $event, null, 'banner')"
             />
             <file-upload
               v-else
-              :image="result.image"
+              :image="result?.banner_image"
               :file-uploading="fileUploading"
               only-icon="upload-icon"
               class="mb-20 mb-sm-15"
-              @file-upload="uploadFile($event, 'banner_image')"
+              @file-upload="uploadFile($event, null, 'banner')"
               :imageWrapStyle="{ flex: 1 }"
             />
           </div>
@@ -199,7 +200,6 @@ export default {
   },
   methods: {
     async uploadFile(file, name = null, fieldName = "photo") {
-      console.log("fieldName =>", fieldName);
       try {
         let params = {};
         if (file) {
