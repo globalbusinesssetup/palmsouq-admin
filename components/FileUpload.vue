@@ -1,7 +1,7 @@
 <template>
   <div class="file-wrapper" :class="{ 'has-error': uploadMessage }">
     <div :style="imageWrapStyle">
-      <div class="file-input">
+      <div :style="imageContainerStyle" class="file-input">
         <input
           type="file"
           accept="image/*"
@@ -79,6 +79,10 @@ export default {
       default: null,
     },
     imageWrapStyle: {
+      type: [Object, Array],
+      default: null,
+    },
+    imageContainerStyle: {
       type: [Object, Array],
       default: null,
     },
