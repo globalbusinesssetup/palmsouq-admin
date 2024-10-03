@@ -321,6 +321,7 @@ export default {
     ]),
   },
   async mounted() {
+    console.log(this.statusObj);
     if (!this.isAdding) {
       this.$nextTick(() => {
         if (!this.gate || this.$can(this.gate, "view")) {

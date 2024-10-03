@@ -1,11 +1,11 @@
 <template>
   <data-page
     ref="dataPage"
-    set-api="setSiteFeature"
-    get-api="getSiteFeature"
+    set-api="setTestimonial"
+    get-api="getTestimonial"
     set-image-api="uploadSiteFeatureImage"
-    route-name="site-features"
-    :name="$t('title.sf')"
+    route-name="testimonials"
+    :name="$t('title.tm')"
     :validation-keys="['detail']"
     :file-keys="['id', 'detail']"
     :result="result"
@@ -23,21 +23,57 @@
         />
       </div>
 
+      <div class="input-wrapper">
+        <label>{{ $t('title.client') }}</label>
+        <input
+          type="text"
+          :placeholder="$t('title.client')"
+          @change="slugChange"
+          v-model="result.client_name"
+          :class="{invalid: !result.client_name && hasError}"
+        >
+        <span
+          class="error"
+          v-if="!result.client_name && hasError"
+        >
+          {{ $t('category.req', { type: $t('title.client')}) }}
+        </span>
+      </div>
 
-      <WYSIWYGEditor
-        class="mb-20"
-        :title="$t('prod.desc')"
-        :description="result.detail"
-        @change="result.detail = $event"
-        @file="editorDescriptionFile"
-      />
+      <div class="input-wrapper">
+        <label>{{ $t('list.tm') }}</label>
+        <textarea
+          type="text"
+          :placeholder="$t('list.tm')"
+          @change="slugChange"
+          v-model="result.testimonial"
+          :class="{invalid: !result.testimonial && hasError}"
+        ></textarea>
+        <span
+          class="error"
+          v-if="!result.testimonial && hasError"
+        >
+          {{ $t('category.req', { type: $t('list.tm')}) }}
+        </span>
+      </div>
 
+      <div class="input-wrapper">
+        <div class="dply-felx j-left mb-20 mb-sm-15">
+          <span class="mr-15">
+            {{ $t('fSale.rating') }}
+          </span>
+          <dropdown
+            :selectedKey="`${result.rating}`"
+            :options="ratingObj"
+            @clicked="dropdownSelected"
+          />
+        </div>
+      </div>
       <div class="input-wrapper">
         <div class="dply-felx j-left mb-20 mb-sm-15">
           <span class="mr-15">
             {{ $t('category.status') }}
           </span>
-
           <dropdown
             :selectedKey="`${result.status}`"
             :options="statusObj"
@@ -45,8 +81,6 @@
           />
         </div>
       </div>
-
-
     </template>
   </data-page>
 </template>
@@ -68,10 +102,12 @@
         loading: false,
         result: {
           id: '',
-          image: this.defaultImage,
+          rating: 0,
+          client_name: '',
           status: '',
-          detail: '',
-        }
+          testimonial: '',
+        },
+        ratingObj: this.createRatingObj()
       }
     },
     mixins: [util],
@@ -85,12 +121,18 @@
       ...mapGetters('language', ['currentLanguage']),
     },
     methods: {
+      createRatingObj() {
+        const statusObj = {};
+        for (let i = 1; i <= 5; i++) {
+          statusObj[i] = { title: `${i}` }; // Set both the key and the title to the same value
+        }
+        return statusObj; // Return the created object
+      },
       editorDescriptionFile({deleted, file, Editor, cursorLocation, resetUploader}){
         this.editorFile({deleted, file, Editor, cursorLocation, resetUploader})
       },
       async editorFile({deleted, file, Editor, cursorLocation, resetUploader}){
         if(!deleted){
-
           this.loading = true
           try {
             const fd = new FormData()
@@ -105,7 +147,7 @@
 
             if(data){
               if (!this.result.id) {
-                await this.$router.push({path: `/site-features/${data.site_feature_id}`})
+                await this.$router.push({path: `/testimonials/${data.site_feature_id}`})
               } else {
                 Editor.insertEmbed(cursorLocation, "image", data.url);
                 resetUploader();
@@ -126,11 +168,9 @@
           this.loading = false
         }
       },
-
       dropdownSelected(data) {
         this.result.status = data.key
       },
-
       ...mapActions('common', ['setRequest', 'deleteData'])
     },
     async mounted() {

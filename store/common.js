@@ -188,7 +188,6 @@ const actions = {
       return Promise.reject({statusCode: data.status, message: data.message})
     }
   },
-
   async deleteData({rootState, commit, dispatch}, {params, api}) {
     const {data} = await Service.deleteData(params, this.$auth.strategy.token.get(), api, rootState.language.langCode)
     if (data.status === 200) {

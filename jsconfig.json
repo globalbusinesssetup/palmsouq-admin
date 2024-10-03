@@ -231,6 +231,11 @@
     "uploadSiteFeatureImage": "site-feature/upload",
     "deleteSiteFeature": "site-feature/delete",
 
+    "getTestimonials": "testimonial/all",
+    "getTestimonial": "testimonial/find",
+    "setTestimonial": "testimonial/action",
+    "deleteTestimonial": "testimonial/delete",
+
 
     "getFooterLinks": "footer-link/all",
     "setFooterLink": "footer-link/service-about-action",
