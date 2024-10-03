@@ -9,7 +9,7 @@
         <spinner :radius="60" color="primary" class="mr-15" />
       </div>
 
-      <div v-if="!loading">
+      <div v-if="!loading && !hideImage">
         <div
           v-if="
             fileKeys.length &&
@@ -174,6 +174,10 @@ export default {
       default() {
         return [];
       },
+    },
+    hideImage: {
+      type: Boolean,
+      default: false,
     },
     showBanner: {
       type: Boolean,
