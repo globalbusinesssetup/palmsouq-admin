@@ -588,15 +588,15 @@
                 <image-input
                   v-if="mediaStorageData.URL === mediaStorage"
                   :saving="fileUploading"
-                  :image="result.image"
-                  @image-change="imageInputChanged"
+                  :image="result?.banner_image"
+                  @image-change="uploadFile(null, $event, null, 'banner')"
                 />
                 <file-upload
                   v-else
                   class="upload-block"
-                  :image="result.image"
+                  :image="result?.banner_image"
                   :file-uploading="fileUploading"
-                  @file-upload="uploadFile"
+                  @file-upload="uploadFile($event, null, 'banner')"
                   :imageContainerStyle="{ height: '300px' }"
                 />
               </div>
@@ -1016,7 +1016,7 @@ export default {
       }
       this.videoUploading = false;
     },
-    async uploadFile(file, name = null) {
+    async uploadFile(file, name = null, fieldName = "photo") {
       this.fileUploading = true;
       try {
         let params = {};
@@ -1025,13 +1025,13 @@ export default {
           this.fileKeys.forEach((i) => {
             fd.append(i, this.result[i]);
           });
-          fd.append("photo", file);
+          fd.append(fieldName, file);
           params = fd;
         } else {
           this.fileKeys.forEach((i) => {
             params[i] = this.result[i];
           });
-          params["photo"] = name;
+          params[fieldName] = name;
         }
 
         const data = await this.setImageById({
