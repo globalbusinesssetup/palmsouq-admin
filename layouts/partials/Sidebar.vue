@@ -356,7 +356,7 @@
                 path: 'testimonials',
                 title: this.$t('title.tm'),
                 icon: 'site-features',
-                gate: 'home_slider'
+                gate: 'testimonial'
               },
               {
                 path: 'site-setting',
