@@ -143,6 +143,7 @@
       @change="imageChanged"
       ref="fileInput"
       style="display: none"
+      multiple
     />
   </div>
 </template>
