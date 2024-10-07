@@ -37,6 +37,11 @@
           :key="index"
           class="card"
           style="width: 152px; min-width: 130px; cursor: pointer"
+          :style="
+            selectedImage === data
+              ? { border: '1px solid #b3d1ff' }
+              : { border: '1px solid transparent' }
+          "
           @click="setImage(data)"
         >
           <image-card
@@ -53,7 +58,8 @@
           >
             {{ thumbToMain(data) }}
           </p>
-          <!-- <button class="" @click.prevent="deleteImage(index)">✖</button> -->
+          <p v-if="selectedImage === data" class="check">✓</p>
+          <button class="" @click.prevent="deleteImage(index)">✖</button>
         </div>
       </div>
 

@@ -178,26 +178,6 @@
 
             <div class="dply-felx mlr--7-5 inputs">
               <div class="input-wrapper mlr-7-5">
-                <label>{{ $t("prod.purchased") }}({{ currencyIcon }})</label>
-                <input
-                  type="number"
-                  step="any"
-                  :placeholder="$t('prod.purchased')"
-                  v-model="result.purchased"
-                  :class="{
-                    invalid:
-                      (result.purchased < 1 || !result.purchased) && hasError,
-                  }"
-                />
-                <span
-                  class="error"
-                  v-if="(result.purchased < 1 || !result.purchased) && hasError"
-                >
-                  {{ $t("category.req", { type: $t("brand.price") }) }}
-                </span>
-              </div>
-
-              <div class="input-wrapper mlr-7-5">
                 <label>{{ $t("prod.selling") }}({{ currencyIcon }})</label>
                 <input
                   type="number"
@@ -226,10 +206,46 @@
                   v-model="result.offered"
                 />
               </div>
+              <div class="input-wrapper mlr-7-5">
+                <label>{{ $t("prod.stock") }}</label>
+                <input
+                  type="number"
+                  step="any"
+                  :placeholder="$t('prod.stock')"
+                  v-model="result.stock"
+                  :class="{
+                    invalid: (result.stock < 1 || !result.stock) && hasError,
+                  }"
+                />
+                <span
+                  class="error"
+                  v-if="(result.stock < 1 || !result.stock) && hasError"
+                >
+                  {{ $t("category.req", { type: $t("brand.price") }) }}
+                </span>
+              </div>
             </div>
             <!--dply-felx inputs-->
 
             <div class="dply-felx mlr--7-5 inputs">
+              <div class="input-wrapper mlr-7-5">
+                <label>{{ $t("prod.sku") }}</label>
+                <input
+                  type="text"
+                  step="any"
+                  :placeholder="$t('prod.sku')"
+                  v-model="result.sku"
+                  :class="{
+                    invalid: (result.sku < 1 || !result.sku) && hasError,
+                  }"
+                />
+                <span
+                  class="error"
+                  v-if="(result.sku < 1 || !result.sku) && hasError"
+                >
+                  {{ $t("category.req", { type: $t("brand.price") }) }}
+                </span>
+              </div>
               <div class="input-wrapper mlr-7-5">
                 <label>{{ $t("prod.barcode") }}</label>
                 <input
@@ -245,26 +261,6 @@
                 <span
                   class="error"
                   v-if="(result.barcode < 1 || !result.barcode) && hasError"
-                >
-                  {{ $t("category.req", { type: $t("brand.price") }) }}
-                </span>
-              </div>
-
-              <div class="input-wrapper mlr-7-5">
-                <label>{{ $t("prod.supplier") }}</label>
-                <input
-                  type="text"
-                  step="any"
-                  :placeholder="$t('prod.supplier')"
-                  v-model="result.supplier"
-                  :class="{
-                    invalid:
-                      (result.supplier < 1 || !result.supplier) && hasError,
-                  }"
-                />
-                <span
-                  class="error"
-                  v-if="(result.supplier < 1 || !result.supplier) && hasError"
                 >
                   {{ $t("category.req", { type: $t("brand.price") }) }}
                 </span>

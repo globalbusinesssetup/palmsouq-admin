@@ -110,7 +110,10 @@
     "na": "N/A",
     "reviews": "Reviews",
     "tRule": "Tax rule",
-    "voucher": "voucher"
+    "voucher": "voucher",
+    "sku": "SKU",
+    "supCode": "Supplier Code",
+    "stock": "Stock"
   },
   "fSale": {
     "sProd": "Selected products",
