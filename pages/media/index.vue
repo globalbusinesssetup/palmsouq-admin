@@ -3,40 +3,34 @@
     <h5 class="mb-20">
       {{ $t("list.show", { from: 1, to: imageCount, total: imageCount }) }}
     </h5>
-    <div
-      class=""
-      style="
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding-bottom: 10px;
-      "
-    >
-      <ajax-button
-        type="button"
-        name="upload"
-        class="primary-btn"
-        :text="$t('Upload')"
-        :fetching-data="uploading"
-        @clicked="$refs.fileInput.click()"
-      />
-      <ajax-button name="upload" class="primary-btn" :text="$t('Download')" />
+    <div class="media-top">
+      <div class="media-buttons">
+        <ajax-button
+          type="button"
+          name="upload"
+          class="primary-btn"
+          :text="$t('Upload')"
+          :fetching-data="uploading"
+          @clicked="$refs.fileInput.click()"
+        />
+        <ajax-button name="upload" class="primary-btn" :text="$t('Download')" />
+      </div>
+      <form class="search-input media-search">
+        <input type="text" :placeholder="$t('list.sh')" v-model="search" />
+        <!-- <button class="primary-btn">{{ $t("list.srch") }}</button> -->
+      </form>
     </div>
 
     <div v-if="loading" class="spinner-wrapper">
       <spinner :radius="100" color="primary" class="mr-15" />
     </div>
 
-    <div
-      v-else
-      style="display: flex; gap: 0 10px; border-top: 1px solid #cccccc"
-    >
+    <div v-else class="media-list">
       <div class="image-container" style="padding-top: 20px">
         <div
           v-for="(data, index) in thumbs"
           :key="index"
-          class="card"
-          style="width: 152px; min-width: 130px; cursor: pointer"
+          class="card media-card"
           :style="
             selectedImage === data
               ? { border: '1px solid #b3d1ff' }
@@ -49,20 +43,14 @@
             :data-src="getImageURL(data)"
             :alt="thumbToMain(data)"
           />
-          <p
-            style="
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-            "
-          >
+          <p class="media-name">
             {{ thumbToMain(data) }}
           </p>
           <p v-if="selectedImage === data" class="check">✓</p>
           <button class="" @click.prevent="deleteImage(index)">✖</button>
         </div>
       </div>
-
+      <!-- Right side  -->
       <div
         v-if="selectedImage"
         style="
@@ -172,6 +160,7 @@ export default {
       imageList: [],
       selectedImage: "",
       uploading: false,
+      search: "",
     };
   },
   components: {
@@ -184,7 +173,12 @@ export default {
       return this.thumbs.length;
     },
     thumbs() {
-      return this.imageList?.filter((str) => str.startsWith("thumb-"));
+      return this.imageList
+        ?.filter((str) => str.startsWith("thumb-"))
+        .filter((image) => {
+          const mainImage = this.thumbToMain(image);
+          return mainImage.toLowerCase().includes(this.search.toLowerCase());
+        });
     },
   },
   methods: {
@@ -249,7 +243,11 @@ export default {
       }
     },
     setImage(data) {
-      this.selectedImage = data;
+      if (this.selectedImage !== data) {
+        this.selectedImage = data;
+      } else {
+        this.selectedImage = "";
+      }
     },
     copyText() {
       navigator.clipboard.writeText(this.selectedImage);
