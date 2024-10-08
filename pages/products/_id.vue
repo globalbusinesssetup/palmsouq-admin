@@ -221,7 +221,7 @@
                   class="error"
                   v-if="(result.stock < 1 || !result.stock) && hasError"
                 >
-                  {{ $t("category.req", { type: $t("brand.price") }) }}
+                  {{ $t("category.req", { type: $t("prod.stock") }) }}
                 </span>
               </div>
             </div>
@@ -243,7 +243,7 @@
                   class="error"
                   v-if="(result.sku < 1 || !result.sku) && hasError"
                 >
-                  {{ $t("category.req", { type: $t("brand.price") }) }}
+                  {{ $t("category.req", { type: $t("prod.sku") }) }}
                 </span>
               </div>
               <div class="input-wrapper mlr-7-5">
@@ -262,7 +262,7 @@
                   class="error"
                   v-if="(result.barcode < 1 || !result.barcode) && hasError"
                 >
-                  {{ $t("category.req", { type: $t("brand.price") }) }}
+                  {{ $t("category.req", { type: $t("Barcode") }) }}
                 </span>
               </div>
 
@@ -579,8 +579,6 @@
                 Banner
               </h4>
               <div v-if="$can('product', 'edit') || $can('product', 'create')">
-                <error-formatter type="image" />
-
                 <image-input
                   v-if="mediaStorageData.URL === mediaStorage"
                   :saving="fileUploading"
@@ -686,7 +684,6 @@ export default {
         "description",
         "overview",
         "selling",
-        "purchased",
       ],
       result: {
         id: "",
@@ -707,6 +704,7 @@ export default {
         purchased: "",
         selling: "",
         offered: "",
+        stock: "",
         barcode: "",
         supplier: "",
         supplier_item_code: "",
@@ -717,6 +715,7 @@ export default {
         flash_sale_product: "",
         meta_title: "",
         image: "",
+        banner_image: "",
         slug: "",
         video: "",
         product_images: [],
