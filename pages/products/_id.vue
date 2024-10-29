@@ -3,7 +3,6 @@
     <div v-if="loading" class="spinner-wrapper">
       <spinner :radius="60" color="primary" class="mr-15" />
     </div>
-
     <div class="right-area">
       <div class="sticky">
         <div class="tab-sidebar mb-20 mb-lg mb-md-15">
@@ -87,13 +86,11 @@
             />
           </div>
         </div>
-
         <div class="tab-sidebar mb-md-15" v-if="!isAdding">
           <h4 class="title">
             <span class="mr-5">{{ $t("prod.pImgs") }}</span>
             <span class="fw-400 f-8">{{ $t("prod.suggImg") }}</span>
           </h4>
-
           <product-images
             :product-images="result.product_images"
             @result="productImages"
@@ -601,10 +598,8 @@
                 :src="getImageURL(result.image)"
               />
             </div>
-
             <div
               v-if="
-                validLicence &&
                 ($can('product', 'edit') || $can('product', 'create'))
               "
               class="dply-felx j-right gap-15"
@@ -625,15 +620,15 @@
           </form>
         </div>
       </div>
-
-      <div class="tab-sidebar mt-15" v-if="!isAdding" ref="productInventory">
+      <!-- Inventory section -->
+      <!-- <div class="tab-sidebar mt-15" v-if="!isAdding" ref="productInventory">
         <product-inventory
           v-if="currentPrice"
           :attributes="allAttributes"
           :product-price="parseFloat(currentPrice)"
           @has-error="scrollToTop('productInventory')"
         />
-      </div>
+      </div> -->
     </div>
     <!--left-area-->
   </div>
@@ -889,7 +884,7 @@ export default {
         delete this.result.created_at;
         delete this.result.updated_at;
         const data = await this.setById({
-          id: this.id,
+          id: this.id || this.result.id,
           params: this.result,
           api: this.setApi,
         });
@@ -1030,13 +1025,14 @@ export default {
         }
 
         const data = await this.setImageById({
-          id: this.id,
+          id: this.id || this.result.id,
           params: params,
           api: this.setImageApi,
         });
 
         if (data) {
-          this.result = Object.assign({}, data);
+          const {image, banner_image, id, product_collections, product_categories, ...rest} = data;
+          this.result = { ...this.result, product_categories, product_collections, image, banner_image, id };
           this.result.product_collections = [
             ...new Set(
               this.result?.product_collections?.map((o) => {
@@ -1052,9 +1048,9 @@ export default {
             ),
           ];
 
-          await this.$router.push({
-            path: `/${this.routeName}/${this.result.id}`,
-          });
+          // await this.$router.push({
+          //   path: `/${this.routeName}/${this.result.id}`,
+          // });
         }
       } catch (e) {
         return this.$nuxt.error(e);
@@ -1144,7 +1140,7 @@ export default {
     const domain = window.location.hostname;
 
     if (
-      domain.includes("admin.ishop.cholobangla.com") ||
+      domain.includes("palmsouq") ||
       domain.includes("localhost") ||
       domain.includes("127.0.0.1")
     ) {

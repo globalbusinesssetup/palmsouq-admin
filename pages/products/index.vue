@@ -82,7 +82,7 @@
           </nuxt-link>
           <span v-else>{{ $t("prod.na") }}</span>
         </td>
-        <td>{{ value.supplier_code }}</td>
+        <td>{{ value.supplier_item_code }}</td>
         <td>{{ value.selling }}</td>
         <td>
           <span v-if="value.offered">

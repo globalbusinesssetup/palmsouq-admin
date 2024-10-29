@@ -97,6 +97,8 @@ export default {
         status: 2,
         image: "",
       },
+      initialResult: {},
+      formDirty: false,
     };
   },
   mixins: [util],
@@ -107,12 +109,29 @@ export default {
   computed: {
     ...mapGetters("language", ["currentLanguage"]),
   },
+  mounted() {
+    this.initialResult = { ...this.result };
+  },
+  watch: {
+    result: {
+      handler(newVal) {
+        this.formDirty = JSON.stringify(newVal) !== JSON.stringify(this.initialResult);
+      },
+      deep: true,
+    },
+  },
   methods: {
     featuredSelected(data) {
       this.result.featured = data.key;
     },
     dropdownSelected(data) {
       this.result.status = data.key;
+    },
+    preventNavigation(event) {
+      if (this.formDirty) {
+        event.preventDefault();
+        event.returnValue = "";
+      }
     },
   },
   async mounted() {},
