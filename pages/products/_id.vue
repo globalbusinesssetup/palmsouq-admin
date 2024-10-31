@@ -63,7 +63,6 @@
               class="form-wrapper upload-block"
             >
               <error-formatter type="image" />
-
               <image-input
                 v-if="mediaStorageData.URL === mediaStorage"
                 :saving="fileUploading"
@@ -774,7 +773,7 @@ export default {
       return !this.isAdding ? this.$route?.params?.id : "";
     },
     isAdding() {
-      return isNaN(this.$route?.params?.id);
+      return isNaN(this.$route?.params?.id || this.result.id);
     },
     currencyIcon() {
       return this.setting?.currency_icon || "$";
@@ -920,7 +919,6 @@ export default {
       }
       this.formSubmitting = false;
     },
-
     scrollToTop(ref = "productForm") {
       this.$refs[ref].scrollIntoView({ behavior: "smooth" });
     },

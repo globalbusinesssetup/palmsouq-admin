@@ -74,6 +74,7 @@
 
         this.loading = false
         this.$el.style.opacity = 1
+        
       }
 
       this.$el.addEventListener('load', setLoadingState)

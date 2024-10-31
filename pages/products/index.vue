@@ -39,10 +39,10 @@
           >
             <lazy-image
               class="mr-20"
-              :data-src="getThumbImageURL(value.image)"
+              :data-src="getImageURL(value.image)"
               :alt="value.title"
             />
-            <!-- <h5 class="mx-w-400x">{{ value.title }}</h5> -->
+            <h5 class="mx-w-400x">{{ value.title }}</h5>
           </nuxt-link>
         </td>
         <td class="status" :class="{ active: value.status == 1 }">

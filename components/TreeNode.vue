@@ -10,7 +10,7 @@
     <span class="node-data">
 
      <lazy-image
-       :data-src="getThumbImageURL(node.image)"
+       :data-src="getImageURL(node.image)"
        :alt="node.title"
      />
       {{ node.title }}
