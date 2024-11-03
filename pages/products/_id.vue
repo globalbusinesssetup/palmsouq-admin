@@ -598,9 +598,7 @@
               />
             </div>
             <div
-              v-if="
-                ($can('product', 'edit') || $can('product', 'create'))
-              "
+              v-if="$can('product', 'edit') || $can('product', 'create')"
               class="dply-felx j-right gap-15"
             >
               <ajax-button
@@ -620,14 +618,14 @@
         </div>
       </div>
       <!-- Inventory section -->
-      <!-- <div class="tab-sidebar mt-15" v-if="!isAdding" ref="productInventory">
+      <div class="tab-sidebar mt-15" v-if="!isAdding" ref="productInventory">
         <product-inventory
           v-if="currentPrice"
           :attributes="allAttributes"
           :product-price="parseFloat(currentPrice)"
           @has-error="scrollToTop('productInventory')"
         />
-      </div> -->
+      </div>
     </div>
     <!--left-area-->
   </div>
@@ -882,10 +880,31 @@ export default {
       try {
         delete this.result.created_at;
         delete this.result.updated_at;
+        const { stock, sku, ...rest } = this.result;
         const data = await this.setById({
           id: this.id || this.result.id,
           params: this.result,
           api: this.setApi,
+        });
+        let combinations = [
+          {
+            quantity: stock,
+            sku,
+            price: this.result.offered ?? this.result.selling,
+          },
+        ];
+        let formData = new FormData();
+        combinations.forEach((item, index) => {
+          for (const key in item) {
+            if (item.hasOwnProperty(key)) {
+              formData.append(`inventories[${index}][${key}]`, item[key] ?? "");
+            }
+          }
+        });
+        const inventoryData = await this.setById({
+          id: this.id || this.result.id,
+          params: formData,
+          api: "setInventory",
         });
 
         if (data) {
@@ -1029,8 +1048,22 @@ export default {
         });
 
         if (data) {
-          const {image, banner_image, id, product_collections, product_categories, ...rest} = data;
-          this.result = { ...this.result, product_categories, product_collections, image, banner_image, id };
+          const {
+            image,
+            banner_image,
+            id,
+            product_collections,
+            product_categories,
+            ...rest
+          } = data;
+          this.result = {
+            ...this.result,
+            product_categories,
+            product_collections,
+            image,
+            banner_image,
+            id,
+          };
           this.result.product_collections = [
             ...new Set(
               this.result?.product_collections?.map((o) => {
