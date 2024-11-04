@@ -618,14 +618,14 @@
         </div>
       </div>
       <!-- Inventory section -->
-      <div class="tab-sidebar mt-15" v-if="!isAdding" ref="productInventory">
+      <!-- <div class="tab-sidebar mt-15" v-if="!isAdding" ref="productInventory">
         <product-inventory
           v-if="currentPrice"
           :attributes="allAttributes"
           :product-price="parseFloat(currentPrice)"
           @has-error="scrollToTop('productInventory')"
         />
-      </div>
+      </div> -->
     </div>
     <!--left-area-->
   </div>
