@@ -902,7 +902,7 @@ export default {
           }
         });
         const inventoryData = await this.setById({
-          id: this.id || this.result.id,
+          id: this.id || data.id,
           params: formData,
           api: "setInventory",
         });

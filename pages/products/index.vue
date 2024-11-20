@@ -33,9 +33,11 @@
           <input type="checkbox" :value="value.id" v-model="cbList" />
         </td>
         <td>
-          <nuxt-link
+          <a
             class="dply-felx j-left link"
-            :to="`/products/${value.id}`"
+            target="_blank"
+            rel="noopener noreferrer"
+            :href="`https://palmsouq.com/${value.category[0]?.category.slug ?? 'category'}/products/${value.id}`"
           >
             <lazy-image
               class="mr-20"
@@ -43,7 +45,7 @@
               :alt="value.title"
             />
             <h5 class="mx-w-400x">{{ value.title }}</h5>
-          </nuxt-link>
+          </a>
         </td>
         <td class="status" :class="{ active: value.status == 1 }">
           <span>{{ getStatus(value.status) }}</span>
