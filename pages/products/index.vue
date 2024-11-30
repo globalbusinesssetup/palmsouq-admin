@@ -37,7 +37,9 @@
             class="dply-felx j-left link"
             target="_blank"
             rel="noopener noreferrer"
-            :href="`https://palmsouq.com/${value.category[0]?.category.slug ?? 'category'}/products/${value.id}`"
+            :href="value.status == 1 
+              ? `https://palmsouq.com/${value.category[0]?.category.slug ?? 'category'}/products/${value.id}` 
+              : `/products/${value.id}`"
           >
             <lazy-image
               class="mr-20"

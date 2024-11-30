@@ -174,7 +174,7 @@ export default {
     },
     thumbs() {
       return this.imageList
-        ?.filter((str) => str.startsWith("thumb-"))
+        ?.filter((str) => !str.startsWith("thumb-"))
         .filter((image) => {
           const mainImage = this.thumbToMain(image);
           return mainImage.toLowerCase().includes(this.search.toLowerCase());

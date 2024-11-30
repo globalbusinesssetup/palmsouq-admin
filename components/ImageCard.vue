@@ -89,6 +89,7 @@ export default {
   methods: {
     onError(e) {
       e.target.src = this.getImageURL();
+      console.log("onError",this.getImageURL());
     },
   },
 };
