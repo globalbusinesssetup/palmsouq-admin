@@ -14,6 +14,7 @@
           v-if="!fileUploading"
           :src="previewImageUrl"
           :alt="imageTitle"
+          @error="onError"
         />
       </div>
 
@@ -113,6 +114,10 @@ export default {
           this.$emit("file-upload", file);
         }
       }
+    },
+    onError(e) {
+
+      e.target.src = this.getImageURL()
     },
   },
 };

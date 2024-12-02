@@ -55,7 +55,7 @@
 
         <h4>{{ $t('title.bulkImg') }}</h4>
 
-        <nuxt-link to="/images" target="_blank" class="link">{{ $t('title.vi') }}</nuxt-link>
+        <nuxt-link to="/media" target="_blank" class="link">{{ $t('title.vi') }}</nuxt-link>
       </div>
       <p class="info-msg mtb-15">{{ $t('title.imgMsg') }}</p>
 

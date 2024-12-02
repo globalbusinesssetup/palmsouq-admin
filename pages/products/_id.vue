@@ -3,7 +3,6 @@
     <div v-if="loading" class="spinner-wrapper">
       <spinner :radius="60" color="primary" class="mr-15" />
     </div>
-
     <div class="right-area">
       <div class="sticky">
         <div class="tab-sidebar mb-20 mb-lg mb-md-15">
@@ -64,7 +63,6 @@
               class="form-wrapper upload-block"
             >
               <error-formatter type="image" />
-
               <image-input
                 v-if="mediaStorageData.URL === mediaStorage"
                 :saving="fileUploading"
@@ -87,13 +85,11 @@
             />
           </div>
         </div>
-
         <div class="tab-sidebar mb-md-15" v-if="!isAdding">
           <h4 class="title">
             <span class="mr-5">{{ $t("prod.pImgs") }}</span>
             <span class="fw-400 f-8">{{ $t("prod.suggImg") }}</span>
           </h4>
-
           <product-images
             :product-images="result.product_images"
             @result="productImages"
@@ -178,26 +174,6 @@
 
             <div class="dply-felx mlr--7-5 inputs">
               <div class="input-wrapper mlr-7-5">
-                <label>{{ $t("prod.purchased") }}({{ currencyIcon }})</label>
-                <input
-                  type="number"
-                  step="any"
-                  :placeholder="$t('prod.purchased')"
-                  v-model="result.purchased"
-                  :class="{
-                    invalid:
-                      (result.purchased < 1 || !result.purchased) && hasError,
-                  }"
-                />
-                <span
-                  class="error"
-                  v-if="(result.purchased < 1 || !result.purchased) && hasError"
-                >
-                  {{ $t("category.req", { type: $t("brand.price") }) }}
-                </span>
-              </div>
-
-              <div class="input-wrapper mlr-7-5">
                 <label>{{ $t("prod.selling") }}({{ currencyIcon }})</label>
                 <input
                   type="number"
@@ -226,10 +202,46 @@
                   v-model="result.offered"
                 />
               </div>
+              <div class="input-wrapper mlr-7-5">
+                <label>{{ $t("prod.stock") }}</label>
+                <input
+                  type="number"
+                  step="any"
+                  :placeholder="$t('prod.stock')"
+                  v-model="result.stock"
+                  :class="{
+                    invalid: (result.stock < 1 || !result.stock) && hasError,
+                  }"
+                />
+                <span
+                  class="error"
+                  v-if="(result.stock < 1 || !result.stock) && hasError"
+                >
+                  {{ $t("category.req", { type: $t("prod.stock") }) }}
+                </span>
+              </div>
             </div>
             <!--dply-felx inputs-->
 
             <div class="dply-felx mlr--7-5 inputs">
+              <div class="input-wrapper mlr-7-5">
+                <label>{{ $t("prod.sku") }}</label>
+                <input
+                  type="text"
+                  step="any"
+                  :placeholder="$t('prod.sku')"
+                  v-model="result.sku"
+                  :class="{
+                    invalid: (result.sku < 1 || !result.sku) && hasError,
+                  }"
+                />
+                <span
+                  class="error"
+                  v-if="(result.sku < 1 || !result.sku) && hasError"
+                >
+                  {{ $t("category.req", { type: $t("prod.sku") }) }}
+                </span>
+              </div>
               <div class="input-wrapper mlr-7-5">
                 <label>{{ $t("prod.barcode") }}</label>
                 <input
@@ -246,27 +258,7 @@
                   class="error"
                   v-if="(result.barcode < 1 || !result.barcode) && hasError"
                 >
-                  {{ $t("category.req", { type: $t("brand.price") }) }}
-                </span>
-              </div>
-
-              <div class="input-wrapper mlr-7-5">
-                <label>{{ $t("prod.supplier") }}</label>
-                <input
-                  type="text"
-                  step="any"
-                  :placeholder="$t('prod.supplier')"
-                  v-model="result.supplier"
-                  :class="{
-                    invalid:
-                      (result.supplier < 1 || !result.supplier) && hasError,
-                  }"
-                />
-                <span
-                  class="error"
-                  v-if="(result.supplier < 1 || !result.supplier) && hasError"
-                >
-                  {{ $t("category.req", { type: $t("brand.price") }) }}
+                  {{ $t("category.req", { type: $t("Barcode") }) }}
                 </span>
               </div>
 
@@ -583,20 +575,18 @@
                 Banner
               </h4>
               <div v-if="$can('product', 'edit') || $can('product', 'create')">
-                <error-formatter type="image" />
-
                 <image-input
                   v-if="mediaStorageData.URL === mediaStorage"
                   :saving="fileUploading"
-                  :image="result.image"
-                  @image-change="imageInputChanged"
+                  :image="result?.banner_image"
+                  @image-change="uploadFile(null, $event, null, 'banner')"
                 />
                 <file-upload
                   v-else
                   class="upload-block"
-                  :image="result.image"
+                  :image="result?.banner_image"
                   :file-uploading="fileUploading"
-                  @file-upload="uploadFile"
+                  @file-upload="uploadFile($event, null, 'banner')"
                   :imageContainerStyle="{ height: '300px' }"
                 />
               </div>
@@ -607,12 +597,8 @@
                 :src="getImageURL(result.image)"
               />
             </div>
-
             <div
-              v-if="
-                validLicence &&
-                ($can('product', 'edit') || $can('product', 'create'))
-              "
+              v-if="$can('product', 'edit') || $can('product', 'create')"
               class="dply-felx j-right gap-15"
             >
               <ajax-button
@@ -631,15 +617,15 @@
           </form>
         </div>
       </div>
-
-      <div class="tab-sidebar mt-15" v-if="!isAdding" ref="productInventory">
+      <!-- Inventory section -->
+      <!-- <div class="tab-sidebar mt-15" v-if="!isAdding" ref="productInventory">
         <product-inventory
           v-if="currentPrice"
           :attributes="allAttributes"
           :product-price="parseFloat(currentPrice)"
           @has-error="scrollToTop('productInventory')"
         />
-      </div>
+      </div> -->
     </div>
     <!--left-area-->
   </div>
@@ -690,7 +676,6 @@ export default {
         "description",
         "overview",
         "selling",
-        "purchased",
       ],
       result: {
         id: "",
@@ -711,6 +696,7 @@ export default {
         purchased: "",
         selling: "",
         offered: "",
+        stock: "",
         barcode: "",
         supplier: "",
         supplier_item_code: "",
@@ -721,6 +707,7 @@ export default {
         flash_sale_product: "",
         meta_title: "",
         image: "",
+        banner_image: "",
         slug: "",
         video: "",
         product_images: [],
@@ -784,7 +771,7 @@ export default {
       return !this.isAdding ? this.$route?.params?.id : "";
     },
     isAdding() {
-      return isNaN(this.$route?.params?.id);
+      return isNaN(this.$route?.params?.id || this.result.id);
     },
     currencyIcon() {
       return this.setting?.currency_icon || "$";
@@ -893,10 +880,31 @@ export default {
       try {
         delete this.result.created_at;
         delete this.result.updated_at;
+        const { stock, sku, ...rest } = this.result;
         const data = await this.setById({
-          id: this.id,
+          id: this.id || this.result.id,
           params: this.result,
           api: this.setApi,
+        });
+        let combinations = [
+          {
+            quantity: stock,
+            sku,
+            price: this.result.offered ?? this.result.selling,
+          },
+        ];
+        let formData = new FormData();
+        combinations.forEach((item, index) => {
+          for (const key in item) {
+            if (item.hasOwnProperty(key)) {
+              formData.append(`inventories[${index}][${key}]`, item[key] ?? "");
+            }
+          }
+        });
+        const inventoryData = await this.setById({
+          id: this.id || data.id,
+          params: formData,
+          api: "setInventory",
         });
 
         if (data) {
@@ -930,7 +938,6 @@ export default {
       }
       this.formSubmitting = false;
     },
-
     scrollToTop(ref = "productForm") {
       this.$refs[ref].scrollIntoView({ behavior: "smooth" });
     },
@@ -1016,7 +1023,7 @@ export default {
       }
       this.videoUploading = false;
     },
-    async uploadFile(file, name = null) {
+    async uploadFile(file, name = null, fieldName = "photo") {
       this.fileUploading = true;
       try {
         let params = {};
@@ -1025,23 +1032,38 @@ export default {
           this.fileKeys.forEach((i) => {
             fd.append(i, this.result[i]);
           });
-          fd.append("photo", file);
+          fd.append(fieldName, file);
           params = fd;
         } else {
           this.fileKeys.forEach((i) => {
             params[i] = this.result[i];
           });
-          params["photo"] = name;
+          params[fieldName] = name;
         }
 
         const data = await this.setImageById({
-          id: this.id,
+          id: this.id || this.result.id,
           params: params,
           api: this.setImageApi,
         });
 
         if (data) {
-          this.result = Object.assign({}, data);
+          const {
+            image,
+            banner_image,
+            id,
+            product_collections,
+            product_categories,
+            ...rest
+          } = data;
+          this.result = {
+            ...this.result,
+            product_categories,
+            product_collections,
+            image,
+            banner_image,
+            id,
+          };
           this.result.product_collections = [
             ...new Set(
               this.result?.product_collections?.map((o) => {
@@ -1057,9 +1079,9 @@ export default {
             ),
           ];
 
-          await this.$router.push({
-            path: `/${this.routeName}/${this.result.id}`,
-          });
+          // await this.$router.push({
+          //   path: `/${this.routeName}/${this.result.id}`,
+          // });
         }
       } catch (e) {
         return this.$nuxt.error(e);
@@ -1149,7 +1171,7 @@ export default {
     const domain = window.location.hostname;
 
     if (
-      domain.includes("admin.ishop.cholobangla.com") ||
+      domain.includes("palmsouq") ||
       domain.includes("localhost") ||
       domain.includes("127.0.0.1")
     ) {

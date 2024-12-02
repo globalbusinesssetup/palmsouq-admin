@@ -15,7 +15,6 @@
     <template
       v-slot:table="{list}"
     >
-
       <ul class="table-tree">
         <tree-node
           v-for="value in list"
@@ -38,7 +37,6 @@
 
         </tree-node>
       </ul>
-
     </template>
   </list-page>
 </template>

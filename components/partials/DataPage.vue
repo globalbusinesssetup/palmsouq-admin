@@ -9,7 +9,7 @@
         <spinner :radius="60" color="primary" class="mr-15" />
       </div>
 
-      <div v-if="!loading">
+      <div v-if="!loading && !hideImage">
         <div
           v-if="
             fileKeys.length &&
@@ -175,6 +175,10 @@ export default {
         return [];
       },
     },
+    hideImage: {
+      type: Boolean,
+      default: false,
+    },
     showBanner: {
       type: Boolean,
       default: false,
@@ -204,12 +208,10 @@ export default {
         let params = {};
         if (file) {
           const fd = new FormData();
-
           this.fileKeys.forEach((i) => {
             fd.append(i, this.result[i]);
           });
           fd.append(fieldName, file);
-
           params = fd;
         } else {
           this.fileKeys.forEach((i) => {
@@ -221,18 +223,20 @@ export default {
         this.fileUploading = true;
 
         const data = await this.setImageById({
-          id: this.id,
+          id: this.id || this.result.id,
           params: params,
           api: this.setImageApi,
         });
+        console.log("image upload res: =>", data);
         if (data && (!this.gate || this.$can(this.gate, "view"))) {
-          await this.$emit("result", Object.assign({}, data));
-          await this.$router.push({
-            path: `/${this.routeName}/${this.result.id}`,
-          });
+          await this.$emit("result", {...this.result, image: data.image, banner_image: data.banner_image, id: data.id});
+          // await this.$router.push({
+          //   path: `/${this.routeName}/${this.result.id}`,
+          // });
         }
 
         this.fileUploading = false;
+        console.log(this.result);
       } catch (e) {
         return this.$nuxt.error(e);
       }
@@ -264,7 +268,7 @@ export default {
         delete this.result.updated_at;
 
         const data = await this.setById({
-          id: this.id,
+          id: this.id || this.result.id,
           params: this.result,
           api: this.setApi,
         });

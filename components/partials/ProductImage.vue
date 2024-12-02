@@ -11,7 +11,7 @@
 
         <div class="img-wrapper">
           <lazy-image
-            :data-src="getThumbImageURL(productImage.image)"
+            :data-src="getImageURL(productImage.image)"
           />
           <button
             v-if="$can('product', 'edit') || $can('product', 'create')"

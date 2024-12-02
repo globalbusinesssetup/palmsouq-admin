@@ -3,6 +3,7 @@
     <div class="file-input">
       <img
         :src="getImageURL(imageName)"
+        @error="onError"
       />
     </div>
 
@@ -69,6 +70,10 @@
       }
     },
     methods: {
+      onError(e) {
+
+      e.target.src = this.getImageURL()
+      }
     },
     mounted() {
       this.imageData = this.image

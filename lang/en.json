@@ -110,7 +110,10 @@
     "na": "N/A",
     "reviews": "Reviews",
     "tRule": "Tax rule",
-    "voucher": "voucher"
+    "voucher": "voucher",
+    "sku": "SKU",
+    "supCode": "Supplier Code",
+    "stock": "Stock"
   },
   "fSale": {
     "sProd": "Selected products",
@@ -495,6 +498,7 @@
     "choose": "Choose",
     "sif": "Show in footer",
     "bu": "Bulk upload",
+    "md": "Media",
     "ex": "Export Xlsx",
     "im": "Import Xlsx",
     "epd": "Exporting product data",
