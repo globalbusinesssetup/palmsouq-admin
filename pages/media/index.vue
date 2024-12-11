@@ -13,13 +13,18 @@
           :fetching-data="uploading"
           @clicked="$refs.fileInput.click()"
         /> -->
-        <ajax-button
-          name="download"
-          class="primary-btn"
-          :text="$t('Download')"
-        />
+        <ajax-button name="download" class="primary-btn" text="Download" />
         <div class="dply-felx gap-10 j-left f-wrap mt-md-15">
-          <table-sort class="mt-0" :order-by-options="orderByOptions" />
+          <dropdown
+            :selectedKey="sortOrder"
+            :options="{
+              default: { title: 'Default' },
+              az: { title: 'A-Z' },
+              za: { title: 'Z-A' },
+            }"
+            style="width: 110px"
+            @clicked="dropdownChange(true, $event)"
+          />
 
           <inline-pop-over :arrow="true" class="bulk-action" ref="bulkDelete">
             <template v-slot:button>
@@ -78,21 +83,31 @@
           <button class="" @click.prevent="deleteImage(index)">✖</button>
         </div>
       </div>
-      <!-- Right side  -->
-      <div
-        v-if="selectedImage"
-        style="
-          border-left: 1px solid #cccccc;
-          padding-left: 10px;
-          padding-top: 20px;
-        "
-      >
-        <img :src="getImageURL(selectedImage)" style="width: 270px" alt="" />
+    </div>
+    <!-- Image popover  -->
+    <pop-over
+      v-if="selectedImage"
+      title="Image data"
+      @close="
+        $emit('close');
+        selectedImage = null;
+      "
+      elem-id="media-pop-over"
+      :layer="true"
+    >
+      <template v-slot:content>
+        <div style="display: flex">
+          <img
+            :src="getImageURL(selectedImage)"
+            style="max-width: 220px; margin-left: auto; margin-right: auto"
+            alt=""
+          />
+        </div>
         <div
-          class=""
           style="
             margin-top: 20px;
             padding-top: 20px;
+            padding-bottom: 10px;
             border-top: 1px solid #cccccc;
           "
         >
@@ -157,30 +172,16 @@
             </p>
           </div>
         </div>
-      </div>
-    </div>
-    <pop-over
-      v-if="selectedImage"
-      title="Image data"
-      @close="$emit('close')"
-      elem-id="media-pop-over"
-      :layer="false"
-      class="address-popup popup-top-auto"
-    >
-      <template v-slot:content>
-        <div>
-          <img :src="getImageURL(selectedImage)" alt="" />
-        </div>
       </template>
     </pop-over>
-    <input
+    <!-- <input
       type="file"
       accept="image/*"
       @change="imageChanged"
       ref="fileInput"
       style="display: none"
       multiple
-    />
+    /> -->
   </div>
 </template>
 
@@ -192,7 +193,6 @@ import ImageCard from "../../components/ImageCard";
 import Spinner from "../../components/Spinner";
 import AjaxButton from "~/components/AjaxButton";
 import validation from "~/mixin/validation";
-import TableSort from "~/components/partials/TableSort";
 import InlinePopOver from "~/components/InlinePopOver";
 import PopOver from "~/components/PopOver";
 
@@ -203,10 +203,12 @@ export default {
     return {
       loading: false,
       imageList: [],
+      originalImageList: [],
       selectedImageList: [],
       selectedImage: "",
       uploading: false,
       search: "",
+      sortOrder: "default",
     };
   },
   components: {
@@ -219,37 +221,39 @@ export default {
       return this.thumbs.length;
     },
     thumbs() {
-      return this.imageList
-        ?.filter((str) => !str.startsWith("thumb-"))
-        .filter((image) => {
-          const mainImage = this.thumbToMain(image);
-          return mainImage.toLowerCase().includes(this.search.toLowerCase());
-        });
+      if (!this.imageList || !Array.isArray(this.imageList)) return [];
+      return this.imageList.filter((image) => {
+        const isNotThumb = !image.startsWith("thumb-");
+        const matchesSearch = this.thumbToMain(image)
+          .toLowerCase()
+          .includes(this.search.toLowerCase());
+        return isNotThumb && matchesSearch;
+      });
     },
   },
   methods: {
-    async imageChanged(event) {
-      this.setErrors();
-      const files = event.target.files;
-      let errors = [];
-      const fd = new FormData();
-      Object.values(files).forEach((item) => {
-        const error = this.isValidImage(item);
-        if (error) {
-          errors.push(error);
-          return false;
-        } else {
-          fd.append("images[]", item);
-        }
-      });
+    // async imageChanged(event) {
+    //   this.setErrors();
+    //   const files = event.target.files;
+    //   let errors = [];
+    //   const fd = new FormData();
+    //   Object.values(files).forEach((item) => {
+    //     const error = this.isValidImage(item);
+    //     if (error) {
+    //       errors.push(error);
+    //       return false;
+    //     } else {
+    //       fd.append("images[]", item);
+    //     }
+    //   });
 
-      if (!errors.length) {
-        this.params = fd;
-        this.bulkImage();
-      } else {
-        this.setErrors({ multiple_image: errors });
-      }
-    },
+    //   if (!errors.length) {
+    //     this.params = fd;
+    //     this.bulkImage();
+    //   } else {
+    //     this.setErrors({ multiple_image: errors });
+    //   }
+    // },
     async bulkImage() {
       if (this.params) {
         this.setErrors();
@@ -268,6 +272,21 @@ export default {
         } catch (e) {
           return this.$nuxt.error(e);
         }
+      }
+    },
+    dropdownChange(_, e) {
+      this.sortOrder = e.key;
+      if (e.key !== "default") {
+        const filterd = this.thumbs.sort((a, b) => {
+          if (e.key === "az") {
+            return a.localeCompare(b); // A-Z sorting
+          } else if (e.key === "za") {
+            return b.localeCompare(a); // Z-A sorting
+          }
+        });
+        this.imageList = filterd;
+      } else {
+        this.imageList = this.originalImageList;
       }
     },
     async deleteImage(index) {
@@ -336,11 +355,12 @@ export default {
     },
     async fetchingData() {
       this.loading = true;
-      this.imageList = await this.getRequest({
+      const data = await this.getRequest({
         params: {},
         api: "imgAll",
       });
-
+      this.imageList = data;
+      this.originalImageList = data;
       this.loading = false;
     },
     ...mapActions("common", ["deleteData", "getRequest", "setRequest"]),
