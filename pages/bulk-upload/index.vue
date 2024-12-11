@@ -1,6 +1,5 @@
 <template>
   <div class="mx-w-600x mlr-auto">
-
     <div class="mb-20 card p-20">
       <h4>{{ $t('title.epd') }}</h4>
       <p class="info-msg mtb-15">{{ $t('title.csvDn') }}</p>
