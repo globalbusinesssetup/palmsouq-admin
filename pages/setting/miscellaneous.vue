@@ -97,6 +97,7 @@
               :searching="true"
               :options="countryList"
               key-name="name"
+              :disabled="true"
               @clicked="selectedCountry"
             />
 

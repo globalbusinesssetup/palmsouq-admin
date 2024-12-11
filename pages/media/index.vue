@@ -13,40 +13,50 @@
           :fetching-data="uploading"
           @clicked="$refs.fileInput.click()"
         /> -->
-        <ajax-button name="download" class="primary-btn" text="Download" />
-        <div class="dply-felx gap-10 j-left f-wrap mt-md-15">
-          <dropdown
-            :selectedKey="sortOrder"
-            :options="{
-              default: { title: 'Default' },
-              az: { title: 'A-Z' },
-              za: { title: 'Z-A' },
-            }"
-            style="width: 110px"
-            @clicked="dropdownChange(true, $event)"
-          />
-
-          <inline-pop-over :arrow="true" class="bulk-action" ref="bulkDelete">
-            <template v-slot:button>
-              {{ $t("title.act") }}
-            </template>
-            <template v-slot:content>
-              <button
-                :disabled="selectedImageList.length < 1"
-                @click.prevent="deleteMultipleImages()"
-                class="outline-btn"
-              >
-                {{ $t("category.delete") }}
-              </button>
-            </template>
-          </inline-pop-over>
-        </div>
+        <!-- <ajax-button name="download" class="primary-btn" :text="$t("category.download")" /> -->
+        <inline-pop-over
+          :arrow="true"
+          :left="true"
+          class="bulk-action"
+          ref="bulkAction"
+        >
+          <template v-slot:button>
+            {{ $t("title.act") }}
+          </template>
+          <template v-slot:content style="left: 0 !important">
+            <button
+              :disabled="selectedImageList.length < 1"
+              class="outline-btn"
+            >
+              {{ $t("category.download") }}
+            </button>
+            <button
+              :disabled="selectedImageList.length < 1"
+              @click.prevent="deleteMultipleImages()"
+              class="outline-btn"
+            >
+              {{ $t("category.delete") }}
+            </button>
+          </template>
+        </inline-pop-over>
       </div>
-
-      <form class="search-input media-search">
-        <input type="text" :placeholder="$t('list.sh')" v-model="search" />
-        <!-- <button class="primary-btn">{{ $t("list.srch") }}</button> -->
-      </form>
+      <div class="dply-felx gap-10 j-left f-wrap mt-md-15">
+        <dropdown
+          :selectedKey="sortOrder"
+          :options="{
+            default: { title: 'Sort By' },
+            az: { title: 'A to Z' },
+            za: { title: 'Z to A' },
+          }"
+          style="width: 110px"
+          :rounded="true"
+          @clicked="dropdownChange(true, $event)"
+        />
+        <form class="search-input media-search">
+          <input type="text" :placeholder="$t('list.sh')" v-model="search" />
+          <!-- <button class="primary-btn">{{ $t("list.srch") }}</button> -->
+        </form>
+      </div>
     </div>
 
     <div v-if="loading" class="spinner-wrapper">
@@ -74,13 +84,15 @@
           <p class="media-name">
             {{ thumbToMain(data) }}
           </p>
-          <p
+          <!-- <p
             @click.stop="setSelectedImage(index)"
             :class="selectedImageList.includes(index) ? 'check' : 'uncheck'"
           >
             {{ selectedImageList.includes(index) ? "✓" : "" }}
-          </p>
-          <button class="" @click.prevent="deleteImage(index)">✖</button>
+          </p> -->
+          <button class="" @click.stop="setSelectedImage(index)">
+            {{ selectedImageList.includes(index) ? "✓" : "" }}
+          </button>
         </div>
       </div>
     </div>
@@ -195,6 +207,7 @@ import AjaxButton from "~/components/AjaxButton";
 import validation from "~/mixin/validation";
 import InlinePopOver from "~/components/InlinePopOver";
 import PopOver from "~/components/PopOver";
+import Dropdown from "~/components/Dropdown";
 
 export default {
   name: "images",
