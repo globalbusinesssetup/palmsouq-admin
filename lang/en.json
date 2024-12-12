@@ -39,7 +39,8 @@
     "featured": "Featured",
     "catUp": "Category",
     "sor": "SORRY",
-    "cat": "category"
+    "cat": "category",
+    "download": "Download"
   },
   "brand": {
     "buyCount": "Buy count",
@@ -508,7 +509,7 @@
     "upHelp": "To update in bulk, please put the product ID in the Excel row.",
     "lngHelp": "To translate in bulk, please put the product id in the Excel row and select the language from the header.",
     "bulkImg": "Images in Bulk",
-    "imgMsg": "You will be able to upload multiple images from here. You can upload maximum 10 images at once.",
+    "imgMsg": "You will be able to upload multiple images from here. You can upload maximum 250 images at once.",
     "bulkImgBtn": "Upload Images in Bulk",
     "vi": "View Images",
     "apue": "Attach PDF in user email",
