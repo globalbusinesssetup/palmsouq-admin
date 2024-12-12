@@ -38,7 +38,7 @@
             target="_blank"
             rel="noopener noreferrer"
             :href="value.status == 1 
-              ? `https://palmsouq.com/${value.category[0]?.category.slug ?? 'category'}/products/${value.id}` 
+              ? `${frontBaseUrl}/${value.category[0]?.category.slug ?? 'category'}/products/${value.id}` 
               : `/products/${value.id}`"
           >
             <lazy-image
@@ -144,6 +144,7 @@ export default {
         created_at: { title: this.$t("category.date") },
         status: { title: this.$t("category.status") },
       },
+      frontBaseUrl: process.env.frontBaseUrl,
     };
   },
   mixins: [util, bulkDelete],

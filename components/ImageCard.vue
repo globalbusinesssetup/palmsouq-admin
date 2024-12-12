@@ -67,13 +67,6 @@ export default {
       return style;
     },
   },
-  watch: {
-    lazySrc(newValue) {
-      console.log("Updated lazySrc:", newValue);
-      this.$el.setAttribute("data-src", newValue);
-      this.observer?.observe(this.$el);
-    },
-  },
   mounted() {
     const setLoadingState = () => {
       this.loading = false;
@@ -88,7 +81,6 @@ export default {
     const observer = lozad(this.$el, {
       load: function (el) {
         // Custom implementation to load an element
-        console.log("Loading image:", el.getAttribute("data-src"));
         el.src = el.getAttribute("data-src");
       },
     });
@@ -97,7 +89,6 @@ export default {
   methods: {
     onError(e) {
       e.target.src = this.getImageURL();
-      console.log("onError", this.getImageURL());
     },
   },
 };

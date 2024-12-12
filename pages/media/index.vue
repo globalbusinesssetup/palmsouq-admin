@@ -221,7 +221,7 @@ export default {
       selectedImage: "",
       uploading: false,
       search: "",
-      sortOrder: "default",
+      sortOrder: "az",
     };
   },
   components: {
@@ -367,13 +367,15 @@ export default {
       return image.replace("thumb-", "");
     },
     async fetchingData() {
+
       this.loading = true;
       const data = await this.getRequest({
         params: {},
         api: "imgAll",
       });
-      this.imageList = data;
-      this.originalImageList = data;
+
+      this.imageList = data.sort((a, b) => a.localeCompare(b));
+      this.originalImageList = data.sort((a, b) => a.localeCompare(b));
       this.loading = false;
     },
     ...mapActions("common", ["deleteData", "getRequest", "setRequest"]),

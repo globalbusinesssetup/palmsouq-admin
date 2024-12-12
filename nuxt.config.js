@@ -10,7 +10,7 @@ export default {
 /*  target: 'static',*/
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'Admin panel',
+    title: 'Palmsouq | Admin panel',
     htmlAttrs: {
       lang: 'en'
     },
@@ -33,7 +33,8 @@ export default {
   ],
   env: {
     apiBase: process.env.API_BASE,
-    isDemo: isDemo
+    isDemo: isDemo,
+    frontBaseUrl: process.env.FRONT_BASE_URL || "https://palmsouq.com",
   },
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
