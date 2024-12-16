@@ -19,7 +19,7 @@
             <span class="mn-w-200x">{{ product.title }}</span>
           </router-link>
 
-          <p v-if="orderedProduct.updated_inventory.sku" class="mt-10">SKU: {{ orderedProduct.updated_inventory.sku }}</p>
+          <p v-if="product.inventory?.sku" class="mt-10">SKU: {{ product.inventory?.sku }}</p>
 
           <span class="mt-10">
             <span

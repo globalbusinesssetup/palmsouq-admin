@@ -103,9 +103,9 @@
                     </span>
 
                     <span
-                      v-if="value.updated_inventory.sku" class="block mt-5"
+                      v-if="value.product?.inventory.sku" class="block mt-5"
                     >
-                      SKU: {{ value.updated_inventory.sku }}
+                      SKU: {{ value.product?.inventory.sku }}
                     </span>
 
                   </span>
