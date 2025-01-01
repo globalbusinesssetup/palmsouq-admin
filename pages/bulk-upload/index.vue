@@ -48,6 +48,39 @@
       />
     </div>
 
+    <error-formatter/>
+
+    <div class="mb-20 card p-20 file-wrap"
+         :class="{'has-error': uploadMessage}"
+    >
+      <h4>{{ $t('title.ftu') }}</h4>
+      <!-- <p class="info-msg mtb-15">{{ $t('title.csvUpd') }}</p> -->
+      <p class="info-msg mb-15">{{ $t('title.updHelp') }} {{ $t('title.lngUpdHelp') }}</p>
+
+      <input
+        class="mb-15 file-input"
+        type="file"
+        accept=".xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        ref="fileInput"
+        @change="fileChanged"
+      >
+
+      <span
+        v-if="uploadMessage"
+        class="error mb-15"
+      >
+        {{ uploadMessage }}
+      </span>
+
+      <ajax-button
+        class="primary-btn"
+        type="button"
+        :text="$t('title.upd')"
+        loading-text=""
+        :fetching-data="updating"
+        @clicked="updateData"
+      />
+    </div>
 
     <div class="mb-20 card p-20">
       <div class="dply-felx gap-15 sided">
@@ -103,6 +136,7 @@
         file: null,
         uploading: false,
         importing: false,
+        updating: false,
         exporting: false,
       }
     },
@@ -202,6 +236,24 @@
             return this.$nuxt.error(e)
           }
           this.importing = false
+        }
+      },
+      async updateData() {
+        if (this.file) {
+          this.setErrors()
+
+          const fd = new FormData()
+          fd.append('file', this.file)
+          this.updating = true
+          try {
+            const data = await this.setRequest({params: fd, api: 'bulkUpdate'})
+
+            this.file = null
+
+          } catch (e) {
+            return this.$nuxt.error(e)
+          }
+          this.updating = false
         }
       },
       ...mapActions('common', ['downloadRequest', 'setRequest']),

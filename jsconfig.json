@@ -62,6 +62,7 @@
 
     "bulkExport": "bulk/export",
     "bulkImport": "bulk/import",
+    "bulkUpdate": "bulk/update",
 
     "imgAll": "images/all",
     "imgDelete": "images/delete",
