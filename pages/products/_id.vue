@@ -387,6 +387,20 @@
               </span>
             </div>
 
+            <div
+              class="input-wrapper"
+              :class="{ 'whysigwyg-error': !!!result.specifications && hasError }"
+            >
+              <WYSIWYGEditor
+                :description="result.specifications"
+                @change="result.specifications = $event"
+                @file="editorDescriptionFile"
+              />
+              <span class="error" v-if="!!!result.specifications && hasError">
+                {{ $t("category.req", { type: $t("prod.desc") }) }}
+              </span>
+            </div>
+
             <div class="dply-felx inputs mlr--7-5">
               <div class="input-wrapper mlr-7-5">
                 <label class="block">{{ $t("category.status") }}</label>
@@ -683,6 +697,9 @@ export default {
         tags: ",",
         overview: "",
         description: "",
+        specifications: "",
+        weight: "",
+        dimention: "",
         status: "2",
         brand_id: "",
         primary_category_id: "",
