@@ -68,6 +68,10 @@
     "imgDelete": "images/delete",
     "imgUpload": "images/upload",
 
+    "getHomeBrief": "home-brief/find",
+    "setHomeBrief": "home-brief/action",
+    "setHomeBriefImage": "home-brief/upload",
+
     "allPlugins": "plugin/all",
     "uploadPlugin": "plugin/upload",
     "activatePlugin": "plugin/activate",

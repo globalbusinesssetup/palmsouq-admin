@@ -24,6 +24,13 @@
     "ly": "Last year",
     "tSells": "Total sells"
   },
+  "homeBrief": {
+    "homeUp": "Home brief update",
+    "title": "Title",
+    "desc": "Description",
+    "subTitle": "Subtitle",
+    "img": "Image"
+  },
   "category": {
     "mDesc": "Meta description",
     "mTitle": "Meta title",
@@ -520,6 +527,7 @@
     "apue": "Attach PDF in user email",
     "gc": "Guest checkout",
     "sEmail": "Sent email to the seller on new orders",
+
 
     "gaId": "Google Analytics ID",
     "eGa": "eg. G-**********",
