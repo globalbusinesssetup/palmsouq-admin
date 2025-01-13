@@ -258,6 +258,7 @@ export default {
         }) > -1
       ) {
         this.hasError = true;
+        console.log("checkForm",this.validationKeys);
         return false;
       }
 
@@ -266,7 +267,8 @@ export default {
       try {
         delete this.result.created_at;
         delete this.result.updated_at;
-
+        console.log("checkForm",this.result);
+        console.log("id",this.id);
         const data = await this.setById({
           id: this.id || this.result.id,
           params: this.result,

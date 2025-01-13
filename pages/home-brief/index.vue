@@ -7,7 +7,7 @@
     route-name="home-brief"
     :name="$t('homeBrief.homeUp')"
     gate="category"
-    :validation-keys="['title', 'subtitle', 'meta_description']"
+    :validation-keys="['title', 'subtitle', 'description']"
     :file-keys="['id', 'status']"
     :result="result"
     @result="resultData"
@@ -81,7 +81,7 @@ export default {
   data() {
     return {
       result: {
-        id: "",
+        id: null,
         title: "",
         status: 2,
         description: "",
@@ -101,6 +101,12 @@ export default {
     ...mapGetters("common", ["getHomeBrief"]),
   },
   methods: {
+    resultData(evt) {
+      if (this.$route?.params?.id === "add") {
+        console.log("resultData", evt);
+      }
+      this.result = evt;
+    },
     async fetchingData () {
       try {
         this.loading = true;
@@ -113,6 +119,9 @@ export default {
       } catch (e) {
         return this.$nuxt.error(e);
       }
+    },
+    dropdownSelected(data) {
+      this.result.status = data.key;
     },
     ...mapActions("common", ["getById", "setHomeBrief", "setHomeBriefImage"]),
   },
