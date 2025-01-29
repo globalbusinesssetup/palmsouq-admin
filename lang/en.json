@@ -382,6 +382,7 @@
     "otw": "On the way",
     "replied": "Replied",
     "pend": "Pending",
+    "cancel": "Cancelled",
     "saved": "Updated successfully!!!",
     "del": "Deleted successfully!!!",
     "appr": "Approved"
@@ -527,7 +528,6 @@
     "apue": "Attach PDF in user email",
     "gc": "Guest checkout",
     "sEmail": "Sent email to the seller on new orders",
-
 
     "gaId": "Google Analytics ID",
     "eGa": "eg. G-**********",
