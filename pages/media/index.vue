@@ -41,7 +41,7 @@
         </inline-pop-over>
       </div>
       <div class="dply-felx gap-10 j-left f-wrap mt-md-15">
-        <dropdown
+        <!-- <dropdown
           :selectedKey="sortOrder"
           :options="{
             default: { title: 'Sort By' },
@@ -51,7 +51,7 @@
           style="width: 110px"
           :rounded="true"
           @clicked="dropdownChange(true, $event)"
-        />
+        /> -->
         <form @submit.prevent="makeSearch" class="search-input media-search">
           <input type="text" :placeholder="$t('list.sh')" v-model="search" />
           <button class="primary-btn">{{ $t("list.srch") }}</button>
@@ -223,9 +223,12 @@ export default {
       selectedImageList: [],
       selectedImage: "",
       uploading: false,
-      search: "",
       sortOrder: "az",
       totalPage: 0,
+      orderTypeObj: {
+        asc: { title: this.$t("dataPage.asc") },
+        desc: { title: this.$t("dataPage.desc") },
+      },
     };
   },
   components: {
