@@ -981,6 +981,10 @@ export default {
           ),
         ];
 
+        this.result.stock = this.result.inventory.reduce((acc, item) => {
+          return acc + item.quantity;
+        }, 0);
+
         this.loading = false;
       } catch (e) {
         return this.$nuxt.error(e);
