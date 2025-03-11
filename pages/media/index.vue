@@ -41,7 +41,7 @@
         </inline-pop-over>
       </div>
       <div class="dply-felx gap-10 j-left f-wrap mt-md-15">
-        <dropdown
+        <!-- <dropdown
           :selectedKey="sortOrder"
           :options="{
             default: { title: 'Sort By' },
@@ -51,10 +51,10 @@
           style="width: 110px"
           :rounded="true"
           @clicked="dropdownChange(true, $event)"
-        />
-        <form class="search-input media-search">
+        /> -->
+        <form @submit.prevent="makeSearch" class="search-input media-search">
           <input type="text" :placeholder="$t('list.sh')" v-model="search" />
-          <!-- <button class="primary-btn">{{ $t("list.srch") }}</button> -->
+          <button class="primary-btn">{{ $t("list.srch") }}</button>
         </form>
       </div>
     </div>
@@ -96,6 +96,7 @@
         </div>
       </div>
     </div>
+    <pagination :total-page="totalPage" />
     <!-- Image popover  -->
     <pop-over
       v-if="selectedImage"
@@ -205,9 +206,11 @@ import ImageCard from "../../components/ImageCard";
 import Spinner from "../../components/Spinner";
 import AjaxButton from "~/components/AjaxButton";
 import validation from "~/mixin/validation";
+import Pagination from "../../components/partials/Pagination";
 import InlinePopOver from "~/components/InlinePopOver";
 import PopOver from "~/components/PopOver";
 import Dropdown from "~/components/Dropdown";
+import tableHelper from "~/mixin/tableHelper";
 
 export default {
   name: "images",
@@ -220,15 +223,20 @@ export default {
       selectedImageList: [],
       selectedImage: "",
       uploading: false,
-      search: "",
       sortOrder: "az",
+      totalPage: 0,
+      orderTypeObj: {
+        asc: { title: this.$t("dataPage.asc") },
+        desc: { title: this.$t("dataPage.desc") },
+      },
     };
   },
   components: {
     Spinner,
     LazyImage,
+    Pagination,
   },
-  mixins: [util, validation],
+  mixins: [util, validation, tableHelper],
   computed: {
     imageCount() {
       return this.thumbs.length;
@@ -237,10 +245,10 @@ export default {
       if (!this.imageList || !Array.isArray(this.imageList)) return [];
       return this.imageList.filter((image) => {
         const isNotThumb = !image.startsWith("thumb-");
-        const matchesSearch = this.thumbToMain(image)
-          .toLowerCase()
-          .includes(this.search.toLowerCase());
-        return isNotThumb && matchesSearch;
+        // const matchesSearch = this.thumbToMain(image)
+        //   .toLowerCase()
+        //   .includes(this.search.toLowerCase());
+        return isNotThumb && this.thumbToMain;
       });
     },
   },
@@ -367,13 +375,12 @@ export default {
       return image.replace("thumb-", "");
     },
     async fetchingData() {
-
       this.loading = true;
-      const data = await this.getRequest({
-        params: {},
+      const { data, last_page } = await this.getRequest({
+        params: { ...this.$route.query },
         api: "imgAll",
       });
-
+      this.totalPage = last_page;
       this.imageList = data.sort((a, b) => a.localeCompare(b));
       this.originalImageList = data.sort((a, b) => a.localeCompare(b));
       this.loading = false;

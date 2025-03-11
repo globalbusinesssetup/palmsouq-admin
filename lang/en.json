@@ -24,6 +24,13 @@
     "ly": "Last year",
     "tSells": "Total sells"
   },
+  "homeBrief": {
+    "homeUp": "Home Brief",
+    "title": "Title",
+    "desc": "Description",
+    "subTitle": "Subtitle",
+    "img": "Image"
+  },
   "category": {
     "mDesc": "Meta description",
     "mTitle": "Meta title",
@@ -375,6 +382,7 @@
     "otw": "On the way",
     "replied": "Replied",
     "pend": "Pending",
+    "cancel": "Cancelled",
     "saved": "Updated successfully!!!",
     "del": "Deleted successfully!!!",
     "appr": "Approved"

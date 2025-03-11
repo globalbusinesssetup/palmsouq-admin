@@ -37,7 +37,6 @@
       >
         {{ uploadMessage }}
       </span>
-
       <ajax-button
         class="primary-btn"
         type="button"

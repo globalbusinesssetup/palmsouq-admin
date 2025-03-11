@@ -93,7 +93,7 @@
             {{ value.offered }}
           </span>
         </td>
-        <td>{{ value.stock }}</td>
+        <td>{{ value.inventory[0]?.total_quantity }}</td>
         <td>
           <nuxt-link
             class="lite-btn button"

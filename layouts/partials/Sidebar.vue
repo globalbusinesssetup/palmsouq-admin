@@ -308,6 +308,12 @@ export default {
               gate: "home_slider",
             },
             {
+              path: "home-brief",
+              title: this.$t("homeBrief.homeUp"),
+              icon: "home-slider",
+              gate: "home_slider",
+            },
+            {
               path: "banners",
               title: this.$t("admin.banners"),
               icon: "banners",
