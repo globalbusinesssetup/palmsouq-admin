@@ -389,7 +389,9 @@
 
             <div
               class="input-wrapper"
-              :class="{ 'whysigwyg-error': !!!result.specifications && hasError }"
+              :class="{
+                'whysigwyg-error': !!!result.specifications && hasError,
+              }"
             >
               <WYSIWYGEditor
                 :description="result.specifications"
@@ -1192,7 +1194,7 @@ export default {
     const domain = window.location.hostname;
 
     if (
-      domain.includes("palmsouq") ||
+      domain.includes("sukransouq") ||
       domain.includes("localhost") ||
       domain.includes("127.0.0.1")
     ) {
